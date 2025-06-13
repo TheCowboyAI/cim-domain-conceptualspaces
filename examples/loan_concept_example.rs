@@ -3,7 +3,7 @@
 //! This example demonstrates how to represent private mortgage lending concepts
 //! (hard money loans, bridge loans, fix & flip, etc.) using topological conceptual spaces.
 
-use cim_conceptual_core::{
+use cim_domain_conceptualspaces::{
     ConceptualSpace, ConceptualPoint, ConvexRegion, DimensionId,
     ConceptualMetric, QualityDimension, DimensionType,
     ContextId,

@@ -1,6 +1,6 @@
 //! Tests for conceptual space implementation
 
-use cim_conceptual_core::{
+use cim_domain_conceptualspaces::{
     ConceptualSpace, ConceptualPoint, ConvexRegion, DimensionId,
     ConceptualMetric, DimensionWeight, QualityDimension, DimensionType,
     Hyperplane
