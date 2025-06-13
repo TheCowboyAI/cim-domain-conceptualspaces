@@ -1,0 +1,29 @@
+[package]
+name = "cim-conceptual-core"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# Core dependencies
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+uuid = { version = "1.11", features = ["v4", "v5", "serde"] }
+cid = { version = "0.11", features = ["serde"] }
+thiserror = "2.0"
+async-trait = "0.1"
+
+# Math and geometry
+nalgebra = { version = "0.33", features = ["serde-serialize"] }  # Enable serde support
+petgraph = { version = "0.6", features = ["serde-1"] }   # Enable serde support
+
+# Internal dependencies
+cim-component = { path = "../cim-component" }
+cim-core-domain = { path = "../cim-core-domain" }
+cim-ipld = { path = "../cim-ipld" }
+
+[dev-dependencies]
+tokio = { version = "1.42", features = ["full"] }
+serde_json = "1.0"
+
+[lints]
+workspace = true
