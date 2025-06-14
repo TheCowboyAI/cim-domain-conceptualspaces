@@ -28,6 +28,4 @@ pub struct SimilarConcepts {
     pub points: Vec<(Uuid, ConceptualPoint, f64)>,
 }
 
-impl Query for FindSimilarConcepts {
-    type Result = SimilarConcepts;
-}
+impl Query for FindSimilarConcepts {}

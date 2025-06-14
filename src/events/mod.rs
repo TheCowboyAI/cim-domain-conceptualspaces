@@ -10,7 +10,7 @@ pub use concept_added::*;
 pub use region_added::*;
 pub use weights_updated::*;
 
-use cim_domain::{DomainEvent, Subject};
+use cim_domain::DomainEvent;
 use crate::ConceptualSpaceId;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;

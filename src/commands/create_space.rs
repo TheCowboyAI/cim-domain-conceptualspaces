@@ -1,6 +1,7 @@
 //! Command to create a new conceptual space
 
 use crate::{ConceptualSpaceId, DimensionId, ConceptualMetric};
+use cim_domain::{Command, EntityId, markers::AggregateMarker};
 use serde::{Deserialize, Serialize};
 
 /// Command to create a new conceptual space
@@ -34,5 +35,13 @@ impl CreateConceptualSpace {
 impl super::ConceptualSpaceCommand for CreateConceptualSpace {
     fn space_id(&self) -> ConceptualSpaceId {
         self.space_id
+    }
+}
+
+impl Command for CreateConceptualSpace {
+    type Aggregate = AggregateMarker;
+
+    fn aggregate_id(&self) -> Option<EntityId<Self::Aggregate>> {
+        Some(EntityId::from_uuid(self.space_id.0))
     }
 }

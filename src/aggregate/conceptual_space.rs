@@ -4,9 +4,8 @@ use crate::{
     ConceptualSpace, ConceptualSpaceId, ConceptualPoint, ConvexRegion,
     DimensionId, ConceptualMetric, ConceptualError, ConceptualResult,
 };
-use cim_domain::{Aggregate, AggregateRoot, DomainError, EntityId};
+use cim_domain::{AggregateRoot, DomainError};
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
 use uuid::Uuid;
 
 /// The aggregate root for conceptual spaces
@@ -33,14 +32,16 @@ impl ConceptualSpaceAggregate {
     }
 
     /// Get the conceptual space ID
-    pub fn id(&self) -> ConceptualSpaceId {
+    pub fn space_id(&self) -> ConceptualSpaceId {
         self.space.id
     }
 
     /// Add a point to the conceptual space
     pub fn add_point(&mut self, point: ConceptualPoint) -> ConceptualResult<Uuid> {
         if self.deleted {
-            return Err(ConceptualError::DomainError(DomainError::AggregateDeleted));
+            return Err(ConceptualError::DomainError(DomainError::InvalidOperation {
+                reason: "Cannot add point to deleted aggregate".to_string(),
+            }));
         }
 
         let id = self.space.add_point(point)?;
@@ -51,7 +52,9 @@ impl ConceptualSpaceAggregate {
     /// Add a convex region to the space
     pub fn add_region(&mut self, region: ConvexRegion) -> ConceptualResult<()> {
         if self.deleted {
-            return Err(ConceptualError::DomainError(DomainError::AggregateDeleted));
+            return Err(ConceptualError::DomainError(DomainError::InvalidOperation {
+                reason: "Cannot add region to deleted aggregate".to_string(),
+            }));
         }
 
         self.space.add_region(region)?;
@@ -71,7 +74,9 @@ impl ConceptualSpaceAggregate {
     /// Find k-nearest neighbors
     pub fn k_nearest_neighbors(&self, point: &ConceptualPoint, k: usize) -> ConceptualResult<Vec<(&Uuid, f64)>> {
         if self.deleted {
-            return Err(ConceptualError::DomainError(DomainError::AggregateDeleted));
+            return Err(ConceptualError::DomainError(DomainError::InvalidOperation {
+                reason: "Cannot query deleted aggregate".to_string(),
+            }));
         }
 
         self.space.k_nearest_neighbors(point, k)
@@ -80,7 +85,9 @@ impl ConceptualSpaceAggregate {
     /// Update the metric weights
     pub fn update_metric_weights(&mut self, weights: Vec<f64>) -> ConceptualResult<()> {
         if self.deleted {
-            return Err(ConceptualError::DomainError(DomainError::AggregateDeleted));
+            return Err(ConceptualError::DomainError(DomainError::InvalidOperation {
+                reason: "Cannot update weights on deleted aggregate".to_string(),
+            }));
         }
 
         if weights.len() != self.space.metric.dimension_weights.len() {
@@ -97,7 +104,9 @@ impl ConceptualSpaceAggregate {
     /// Mark the aggregate as deleted
     pub fn delete(&mut self) -> ConceptualResult<()> {
         if self.deleted {
-            return Err(ConceptualError::DomainError(DomainError::AggregateDeleted));
+            return Err(ConceptualError::DomainError(DomainError::InvalidOperation {
+                reason: "Aggregate is already deleted".to_string(),
+            }));
         }
 
         self.deleted = true;
@@ -111,20 +120,13 @@ impl ConceptualSpaceAggregate {
     }
 }
 
-impl Aggregate for ConceptualSpaceAggregate {
-    type Id = ConceptualSpaceId;
-    type Error = ConceptualError;
-
-    fn aggregate_type() -> &'static str {
-        "ConceptualSpace"
-    }
-
-    fn aggregate_id(&self) -> Option<EntityId<Self>> {
-        Some(EntityId::from(self.space.id.0))
-    }
-}
-
 impl AggregateRoot for ConceptualSpaceAggregate {
+    type Id = ConceptualSpaceId;
+
+    fn id(&self) -> Self::Id {
+        self.space.id
+    }
+
     fn version(&self) -> u64 {
         self.version
     }
