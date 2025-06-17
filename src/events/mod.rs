@@ -27,7 +27,8 @@ pub enum ConceptualSpaceDomainEvent {
     SpaceCreated(ConceptualSpaceCreated),
     ConceptAdded(ConceptAdded),
     RegionAdded(RegionAdded),
-    WeightsUpdated(DimensionWeightsUpdated),
+    WeightsRemoved(DimensionWeightsRemoved),
+    WeightsAdded(DimensionWeightsAdded),
 }
 
 impl DomainEvent for ConceptualSpaceDomainEvent {
@@ -36,7 +37,8 @@ impl DomainEvent for ConceptualSpaceDomainEvent {
             Self::SpaceCreated(_) => "ConceptualSpaceCreated",
             Self::ConceptAdded(_) => "ConceptAdded",
             Self::RegionAdded(_) => "RegionAdded",
-            Self::WeightsUpdated(_) => "DimensionWeightsUpdated",
+            Self::WeightsRemoved(_) => "DimensionWeightsRemoved",
+            Self::WeightsAdded(_) => "DimensionWeightsAdded",
         }
     }
 
@@ -45,7 +47,8 @@ impl DomainEvent for ConceptualSpaceDomainEvent {
             Self::SpaceCreated(e) => e.space_id.0,
             Self::ConceptAdded(e) => e.space_id.0,
             Self::RegionAdded(e) => e.space_id.0,
-            Self::WeightsUpdated(e) => e.space_id.0,
+            Self::WeightsRemoved(e) => e.space_id.0,
+            Self::WeightsAdded(e) => e.space_id.0,
         }
     }
 

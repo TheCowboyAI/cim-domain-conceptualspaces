@@ -82,6 +82,18 @@ impl ConceptualSpaceAggregate {
         self.space.k_nearest_neighbors(point, k)
     }
 
+    /// Get current metric weights
+    pub fn get_metric_weights(&self) -> Vec<f64> {
+        if self.deleted {
+            return Vec::new();
+        }
+        
+        self.space.metric.dimension_weights
+            .iter()
+            .map(|w| w.value(None))
+            .collect()
+    }
+
     /// Update the metric weights
     pub fn update_metric_weights(&mut self, weights: Vec<f64>) -> ConceptualResult<()> {
         if self.deleted {
@@ -96,7 +108,12 @@ impl ConceptualSpaceAggregate {
             ));
         }
 
-        // Update weights - in a real implementation, this would preserve the weight types
+        // Convert f64 weights to DimensionWeight::Constant
+        self.space.metric.dimension_weights = weights
+            .into_iter()
+            .map(|w| crate::DimensionWeight::constant(w))
+            .collect();
+        
         self.version += 1;
         Ok(())
     }

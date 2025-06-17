@@ -25,6 +25,11 @@ pub mod projection;
 pub mod traits;
 pub mod category_theory;
 
+// New modules for completion
+pub mod spatial_index;
+pub mod similarity;
+pub mod category_formation;
+
 // Re-export aggregate
 pub use aggregate::ConceptualSpaceAggregate;
 
@@ -36,14 +41,17 @@ pub use value_objects::{
 
 // Re-export commands
 pub use commands::{
-    CreateConceptualSpace, AddConcept, AddRegion, UpdateDimensionWeights
+    CreateConceptualSpace, AddConcept, AddRegion, ReplaceDimensionWeights
 };
 
 // Re-export events
 pub use events::{
-    ConceptualSpaceDomainEvent, ConceptualSpaceCreated, ConceptAdded,
-    RegionAdded, DimensionWeightsUpdated
+    ConceptualSpaceCreated, ConceptAdded, 
+    RegionAdded, DimensionWeightsRemoved, DimensionWeightsAdded
 };
+
+// Re-export handlers
+pub use handlers::ConceptualSpaceCommandHandler;
 
 // Re-export queries
 pub use queries::{FindSimilarConcepts, SimilarConcepts};
@@ -58,6 +66,11 @@ pub use concept_map::{ConceptMap, ConceptMapId, ConceptNode, ConceptEdge, Contex
 pub use morphisms::{CrossContextMorphism, MorphismType, ConceptId};
 pub use projection::{ConceptualProjection, ConceptualChange};
 pub use traits::{ConceptualEntity, ConceptProducer};
+
+// Re-export new modules
+pub use spatial_index::{SpatialIndex, RTreeIndex, KdTreeIndex};
+pub use similarity::{SimilarityEngine, AdvancedSimilarity};
+pub use category_formation::{CategoryFormation, CategoryBoundaryDetection};
 
 use cim_domain::DomainError;
 use thiserror::Error;

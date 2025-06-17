@@ -5,7 +5,7 @@
 
 use cim_domain_conceptualspaces::{
     ConceptualSpace, ConceptualPoint, ConvexRegion, DimensionId,
-    ConceptualMetric, QualityDimension, DimensionType,
+    ConceptualMetric, QualityDimension, DimensionType, DistanceMetric,
     ContextId,
     CrossContextMorphism, MorphismType, ConceptId,
     ConceptualProjection, ConceptualChange,
@@ -104,7 +104,6 @@ fn create_private_mortgage_dimensions(dims: &PrivateMortgageDimensions) -> Vec<Q
             range: 0.0..1.0,
             description: Some("0.0 = 0% LTV, 1.0 = 100% LTV".to_string()),
             context: Some("PrivateMortgageLending".to_string()),
-            metric: cim_conceptual_core::DistanceMetric::Euclidean,
         },
         QualityDimension {
             id: dims.property_quality,
@@ -113,7 +112,6 @@ fn create_private_mortgage_dimensions(dims: &PrivateMortgageDimensions) -> Vec<Q
             range: 0.0..1.0,
             description: Some("0.0 = distressed, 1.0 = prime condition".to_string()),
             context: Some("PrivateMortgageLending".to_string()),
-            metric: cim_conceptual_core::DistanceMetric::Euclidean,
         },
         QualityDimension {
             id: dims.location_desirability,
@@ -122,7 +120,6 @@ fn create_private_mortgage_dimensions(dims: &PrivateMortgageDimensions) -> Vec<Q
             range: 0.0..1.0,
             description: Some("0.0 = rural/declining, 1.0 = prime urban".to_string()),
             context: Some("PrivateMortgageLending".to_string()),
-            metric: cim_conceptual_core::DistanceMetric::Euclidean,
         },
         QualityDimension {
             id: dims.exit_strategy_clarity,
@@ -131,7 +128,6 @@ fn create_private_mortgage_dimensions(dims: &PrivateMortgageDimensions) -> Vec<Q
             range: 0.0..1.0,
             description: Some("0.0 = unclear, 1.0 = guaranteed exit".to_string()),
             context: Some("PrivateMortgageLending".to_string()),
-            metric: cim_conceptual_core::DistanceMetric::Euclidean,
         },
         QualityDimension {
             id: dims.funding_speed,
@@ -140,7 +136,6 @@ fn create_private_mortgage_dimensions(dims: &PrivateMortgageDimensions) -> Vec<Q
             range: 0.0..1.0,
             description: Some("0.0 = 30+ days, 1.0 = same day".to_string()),
             context: Some("PrivateMortgageLending".to_string()),
-            metric: cim_conceptual_core::DistanceMetric::Euclidean,
         },
         QualityDimension {
             id: dims.rate_premium,
@@ -149,7 +144,6 @@ fn create_private_mortgage_dimensions(dims: &PrivateMortgageDimensions) -> Vec<Q
             range: 0.0..1.0,
             description: Some("0.0 = bank rate, 1.0 = maximum legal rate".to_string()),
             context: Some("PrivateMortgageLending".to_string()),
-            metric: cim_conceptual_core::DistanceMetric::Euclidean,
         },
         QualityDimension {
             id: dims.renovation_risk,
@@ -158,7 +152,6 @@ fn create_private_mortgage_dimensions(dims: &PrivateMortgageDimensions) -> Vec<Q
             range: 0.0..1.0,
             description: Some("0.0 = turnkey, 1.0 = complete gut rehab".to_string()),
             context: Some("PrivateMortgageLending".to_string()),
-            metric: cim_conceptual_core::DistanceMetric::Euclidean,
         },
         // ... additional dimensions
     ]
