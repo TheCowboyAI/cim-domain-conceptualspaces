@@ -19,7 +19,7 @@ struct PrivateMortgageDimensions {
     ltv_ratio: DimensionId,
     property_quality: DimensionId,
     location_desirability: DimensionId,
-    exit_strategy_clarity: DimensionId,
+    i: DimensionId,
 
     // Speed dimensions (key differentiator)
     funding_speed: DimensionId,
