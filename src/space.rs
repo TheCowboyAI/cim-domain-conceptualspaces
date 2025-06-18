@@ -9,7 +9,7 @@
 use crate::{ConceptualError, ConceptualResult};
 use nalgebra::DVector;
 use serde::{Deserialize, Serialize};
-use std::collections::{HashMap, HashSet};
+use std::collections::HashMap;
 use uuid::Uuid;
 
 /// A unique identifier for a conceptual space
@@ -110,7 +110,7 @@ impl ConceptualPoint {
 }
 
 // ConvexRegion and Hyperplane moved to value_objects module
-use crate::{ConvexRegion, Hyperplane};
+use crate::ConvexRegion;
 
 /// Metric structure for the topological space
 #[derive(Debug, Clone, Serialize, Deserialize)]

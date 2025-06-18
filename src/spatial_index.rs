@@ -3,8 +3,7 @@
 //! This module provides spatial data structures for fast nearest neighbor search,
 //! range queries, and region-based operations in high-dimensional conceptual spaces.
 
-use crate::{ConceptualPoint, ConceptualError, ConceptualResult, DistanceMetric};
-use nalgebra::DVector;
+use crate::{ConceptualPoint, ConceptualResult, DistanceMetric};
 use serde::{Deserialize, Serialize};
 use std::collections::BinaryHeap;
 use std::cmp::Ordering;

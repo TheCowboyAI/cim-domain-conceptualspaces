@@ -4,7 +4,6 @@
 //! including semantic similarity, contextual similarity, and domain-specific measures.
 
 use crate::{ConceptualPoint, ConceptualError, ConceptualResult, DistanceMetric, ConceptualSpace};
-use nalgebra::DVector;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use uuid::Uuid;
@@ -301,7 +300,7 @@ impl AdvancedSimilarity {
         let mut total_weight = 0.0;
 
         // Level 0: Basic geometric similarity
-        if levels.len() > 0 {
+        if !levels.is_empty() {
             let geometric_sim = {
                 let distance = space.metric.distance(point_a, point_b)?;
                 1.0 / (1.0 + distance)

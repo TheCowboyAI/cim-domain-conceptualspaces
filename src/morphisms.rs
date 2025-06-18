@@ -200,8 +200,8 @@ impl MorphismDiscoveryRule {
 
     /// Check if this rule applies to a pair of contexts
     pub fn applies_to(&self, source: ContextId, target: ContextId) -> bool {
-        let source_match = self.source_context.map_or(true, |c| c == source);
-        let target_match = self.target_context.map_or(true, |c| c == target);
+        let source_match = self.source_context.is_none_or(|c| c == source);
+        let target_match = self.target_context.is_none_or(|c| c == target);
         source_match && target_match
     }
 }

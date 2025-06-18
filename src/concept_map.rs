@@ -33,6 +33,12 @@ impl Default for ConceptMapId {
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub struct ContextId(Uuid);
 
+impl Default for ContextId {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl ContextId {
     /// Create a new random context ID
     pub fn new() -> Self {

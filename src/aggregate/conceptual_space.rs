@@ -111,7 +111,7 @@ impl ConceptualSpaceAggregate {
         // Convert f64 weights to DimensionWeight::Constant
         self.space.metric.dimension_weights = weights
             .into_iter()
-            .map(|w| crate::DimensionWeight::constant(w))
+            .map(crate::DimensionWeight::constant)
             .collect();
         
         self.version += 1;

@@ -114,9 +114,9 @@ impl QualityDimension {
 
     /// Denormalize a value from [0, 1] to the dimension's range
     pub fn denormalize_value(&self, normalized: f64) -> ConceptualResult<f64> {
-        if normalized < 0.0 || normalized > 1.0 {
+        if !(0.0..=1.0).contains(&normalized) {
             return Err(ConceptualError::InvalidDimension(
-                format!("Normalized value {} must be in [0, 1]", normalized)
+                format!("Normalized value {normalized} must be in [0, 1]")
             ));
         }
 
