@@ -1,6 +1,6 @@
 [package]
 name = "cim-domain-conceptualspaces"
-version = "0.2.0"
+version = "0.3.0"
 edition = "2021"
 description = "Conceptual Spaces domain for CIM - Geometric knowledge representation"
 keywords = ["conceptual-spaces", "knowledge-representation", "semantic", "ddd", "domain"]
