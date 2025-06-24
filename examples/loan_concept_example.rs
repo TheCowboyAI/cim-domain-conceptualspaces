@@ -19,7 +19,7 @@ struct PrivateMortgageDimensions {
     ltv_ratio: DimensionId,
     property_quality: DimensionId,
     location_desirability: DimensionId,
-    i: DimensionId,
+    exit_strategy_clarity: DimensionId,
 
     // Speed dimensions (key differentiator)
     funding_speed: DimensionId,
@@ -486,7 +486,7 @@ fn main() {
     // Add prototypes to space
     let hard_money_id = lending_space.add_point(hard_money_prototype.clone()).unwrap();
     let bridge_id = lending_space.add_point(bridge_loan_prototype.clone()).unwrap();
-    let construction_id = lending_space.add_point(construction_prototype.clone()).unwrap();
+    let _construction_id = lending_space.add_point(construction_prototype.clone()).unwrap();
 
     println!("\nAdded private mortgage prototypes to conceptual space");
 

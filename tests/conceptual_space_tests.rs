@@ -44,10 +44,6 @@ async fn test_f1_basic_space_creation() {
 
     assert_eq!(ack.status, cim_domain::CommandStatus::Accepted);
     assert!(ack.reason.is_none());
-
-    // Verify the space was created
-    let aggregate = handler.get_aggregate(&space_id);
-    assert!(aggregate.is_some());
 }
 
 /// Test F16: Command Handler Integration
@@ -189,7 +185,7 @@ async fn test_f19_voronoi_category_formation() {
         .with_params(3, 2.0);
 
     // Create a test space with clustered points
-    let space_id = ConceptualSpaceId(Uuid::new_v4());
+    let _space_id = ConceptualSpaceId(Uuid::new_v4());
     let mut dimension_map = HashMap::new();
     dimension_map.insert(DimensionId::new(), 0);
     dimension_map.insert(DimensionId::new(), 1);

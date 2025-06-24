@@ -74,3 +74,175 @@ impl DimensionWeight {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// Test constant weight
+    ///
+    /// ```mermaid
+    /// graph TD
+    ///     A[Create Constant] --> B[Always Same Value]
+    ///     B --> C[Context Ignored]
+    /// ```
+    #[test]
+    fn test_constant_weight() {
+        let weight = DimensionWeight::constant(0.7);
+
+        // Should always return the same value
+        assert_eq!(weight.value(None), 0.7);
+        assert_eq!(weight.value(Some("context1")), 0.7);
+        assert_eq!(weight.value(Some("context2")), 0.7);
+    }
+
+    /// Test contextual weight
+    ///
+    /// ```mermaid
+    /// graph TD
+    ///     A[Create Contextual] --> B[Base Weight]
+    ///     B --> C[Add Context Modifiers]
+    ///     C --> D[Context-Specific Values]
+    /// ```
+    #[test]
+    fn test_contextual_weight() {
+        let weight = DimensionWeight::contextual(0.5)
+            .with_context("work".to_string(), 0.8)
+            .with_context("leisure".to_string(), 0.3);
+
+        // Test base weight (no context)
+        assert_eq!(weight.value(None), 0.5);
+
+        // Test context-specific weights
+        assert_eq!(weight.value(Some("work")), 0.8);
+        assert_eq!(weight.value(Some("leisure")), 0.3);
+
+        // Test unknown context falls back to base
+        assert_eq!(weight.value(Some("unknown")), 0.5);
+    }
+
+    /// Test attentional weight
+    ///
+    /// ```mermaid
+    /// graph TD
+    ///     A[Create Attentional] --> B[Current Value]
+    ///     B --> C[Clamp to Range]
+    ///     C --> D[Update Attention]
+    /// ```
+    #[test]
+    fn test_attentional_weight() {
+        let mut weight = DimensionWeight::attentional(0.5, 0.1, 0.9);
+
+        // Test initial value
+        assert_eq!(weight.value(None), 0.5);
+
+        // Test updating attention
+        weight.update_attention(0.7);
+        assert_eq!(weight.value(None), 0.7);
+
+        // Test clamping to max
+        weight.update_attention(1.5);
+        assert_eq!(weight.value(None), 0.9);
+
+        // Test clamping to min
+        weight.update_attention(-0.5);
+        assert_eq!(weight.value(None), 0.1);
+    }
+
+    /// Test attentional weight creation with clamping
+    ///
+    /// ```mermaid
+    /// graph TD
+    ///     A[Create with Out-of-Range] --> B[Auto-Clamp]
+    ///     B --> C[Within Min-Max]
+    /// ```
+    #[test]
+    fn test_attentional_creation_clamping() {
+        // Current value above max
+        let weight1 = DimensionWeight::attentional(1.5, 0.0, 1.0);
+        assert_eq!(weight1.value(None), 1.0);
+
+        // Current value below min
+        let weight2 = DimensionWeight::attentional(-0.5, 0.0, 1.0);
+        assert_eq!(weight2.value(None), 0.0);
+
+        // Normal case
+        let weight3 = DimensionWeight::attentional(0.5, 0.0, 1.0);
+        assert_eq!(weight3.value(None), 0.5);
+    }
+
+    /// Test update_attention on non-attentional weights
+    ///
+    /// ```mermaid
+    /// graph TD
+    ///     A[Non-Attentional Weight] --> B[Update Attention]
+    ///     B --> C[No Effect]
+    /// ```
+    #[test]
+    fn test_update_attention_on_non_attentional() {
+        let mut constant = DimensionWeight::constant(0.5);
+        constant.update_attention(0.8);
+        assert_eq!(constant.value(None), 0.5); // Should not change
+
+        let mut contextual = DimensionWeight::contextual(0.5);
+        contextual.update_attention(0.8);
+        assert_eq!(contextual.value(None), 0.5); // Should not change
+    }
+
+    /// Test complex contextual weight scenario
+    ///
+    /// ```mermaid
+    /// graph TD
+    ///     A[Multiple Contexts] --> B[Override Base]
+    ///     B --> C[Chain Building]
+    ///     C --> D[Verify All Contexts]
+    /// ```
+    #[test]
+    fn test_complex_contextual_weight() {
+        let weight = DimensionWeight::contextual(0.5)
+            .with_context("morning".to_string(), 0.3)
+            .with_context("afternoon".to_string(), 0.6)
+            .with_context("evening".to_string(), 0.8)
+            .with_context("night".to_string(), 0.2);
+
+        // Test all contexts
+        assert_eq!(weight.value(Some("morning")), 0.3);
+        assert_eq!(weight.value(Some("afternoon")), 0.6);
+        assert_eq!(weight.value(Some("evening")), 0.8);
+        assert_eq!(weight.value(Some("night")), 0.2);
+
+        // Test that last value wins if same context added multiple times
+        let weight2 = DimensionWeight::contextual(0.5)
+            .with_context("test".to_string(), 0.3)
+            .with_context("test".to_string(), 0.7); // Overrides previous
+
+        assert_eq!(weight2.value(Some("test")), 0.7);
+    }
+
+    /// Test edge cases with extreme values
+    ///
+    /// ```mermaid
+    /// graph TD
+    ///     A[Extreme Values] --> B[Negative Weights]
+    ///     B --> C[Zero Weights]
+    ///     C --> D[Large Weights]
+    /// ```
+    #[test]
+    fn test_extreme_values() {
+        // Negative weights (valid in some contexts)
+        let negative = DimensionWeight::constant(-0.5);
+        assert_eq!(negative.value(None), -0.5);
+
+        // Zero weight
+        let zero = DimensionWeight::constant(0.0);
+        assert_eq!(zero.value(None), 0.0);
+
+        // Large weight
+        let large = DimensionWeight::constant(1000.0);
+        assert_eq!(large.value(None), 1000.0);
+
+        // Attentional with negative range
+        let negative_attention = DimensionWeight::attentional(-0.5, -1.0, 0.0);
+        assert_eq!(negative_attention.value(None), -0.5);
+    }
+}
