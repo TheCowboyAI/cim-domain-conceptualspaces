@@ -3,7 +3,13 @@ name = "cim-domain-conceptualspaces"
 version = "0.3.0"
 edition = "2021"
 description = "Conceptual Spaces domain for CIM - Geometric knowledge representation"
-keywords = ["conceptual-spaces", "knowledge-representation", "semantic", "ddd", "domain"]
+keywords = [
+    "conceptual-spaces",
+    "knowledge-representation",
+    "semantic",
+    "ddd",
+    "domain",
+]
 categories = ["science", "data-structures"]
 
 [dependencies]
@@ -16,8 +22,13 @@ thiserror = "2.0"
 async-trait = "0.1"
 
 # Math and geometry
-nalgebra = { version = "0.33", features = ["serde-serialize"] }  # Enable serde support
-petgraph = { version = "0.6", features = ["serde-1"] }   # Enable serde support
+nalgebra = { version = "0.33", features = [
+    "serde-serialize",
+] } # Enable serde support
+petgraph = { version = "0.6", features = ["serde-1"] } # Enable serde support
+
+# Logging
+tracing = "0.1"
 
 # Internal dependencies
 cim-component = { path = "../cim-component" }

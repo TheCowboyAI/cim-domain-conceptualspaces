@@ -29,6 +29,7 @@ pub mod category_theory;
 pub mod spatial_index;
 pub mod similarity;
 pub mod category_formation;
+pub mod reasoning;
 
 // Re-export aggregate
 pub use aggregate::ConceptualSpaceAggregate;
@@ -71,6 +72,10 @@ pub use traits::{ConceptualEntity, ConceptProducer};
 pub use spatial_index::{SpatialIndex, RTreeIndex, KdTreeIndex};
 pub use similarity::{SimilarityEngine, AdvancedSimilarity};
 pub use category_formation::{CategoryFormation, CategoryBoundaryDetection};
+pub use reasoning::{
+    ConceptualReasoning, CategoryInference, ConceptualBlend,
+    SemanticPath, SimilarityMatch, PathConstraints
+};
 
 use cim_domain::DomainError;
 use thiserror::Error;

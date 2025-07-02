@@ -48,6 +48,19 @@ impl RTreeIndex {
             metric,
         }
     }
+
+    /// Find k nearest points to a query point
+    pub fn find_k_nearest(&self, query: &ConceptualPoint, k: usize) -> ConceptualResult<Vec<(ConceptualPoint, f64)>> {
+        let mut distances: Vec<_> = self.points.iter()
+            .filter_map(|point| {
+                self.metric.calculate(query, point).ok().map(|d| (point.clone(), d))
+            })
+            .collect();
+
+        distances.sort_by(|a, b| a.1.partial_cmp(&b.1).unwrap_or(Ordering::Equal));
+        distances.truncate(k);
+        Ok(distances)
+    }
 }
 
 impl SpatialIndex for RTreeIndex {
