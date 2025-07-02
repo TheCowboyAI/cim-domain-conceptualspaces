@@ -30,25 +30,3 @@ impl Command for ReplaceDimensionWeights {
         Some(EntityId::from_uuid(self.space_id.0))
     }
 }
-
-// Keep the old command for backward compatibility but mark it deprecated
-#[deprecated(note = "Use ReplaceDimensionWeights instead - this violates event sourcing principles")]
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct UpdateDimensionWeights {
-    pub space_id: ConceptualSpaceId,
-    pub weights: Vec<f64>,
-}
-
-impl super::ConceptualSpaceCommand for UpdateDimensionWeights {
-    fn space_id(&self) -> ConceptualSpaceId {
-        self.space_id
-    }
-}
-
-impl Command for UpdateDimensionWeights {
-    type Aggregate = AggregateMarker;
-
-    fn aggregate_id(&self) -> Option<EntityId<Self::Aggregate>> {
-        Some(EntityId::from_uuid(self.space_id.0))
-    }
-}
