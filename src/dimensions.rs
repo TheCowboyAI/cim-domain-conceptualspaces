@@ -162,8 +162,7 @@ impl QualityDimension {
                     Ok(())
                 } else {
                     Err(ConceptualError::InvalidDimension(
-                        format!("Value {} is outside range {:?} for dimension '{}'",
-                                value, self.range, self.name)
+                        format!("Value {} is outside range {:?} for dimension '{}'", value, self.range, self.name)
                     ))
                 }
             }

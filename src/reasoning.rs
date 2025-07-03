@@ -287,7 +287,7 @@ impl ConceptualReasoning {
 
         let mut matches = Vec::new();
         
-        for (_, point) in &space.points {
+        for point in space.points.values() {
             let similarity = self.similarity_engine.contextual_similarity(
                 query, point, context
             )?;
@@ -320,7 +320,7 @@ impl ConceptualReasoning {
         // Update similarity engine based on feedback
         if let ReasoningQuery::Similarity(a, b) = &query {
             if let ReasoningFeedback::Similarity(target_score) = feedback {
-                self.similarity_engine.adaptive_similarity(&a, &b, Some(target_score))?;
+                self.similarity_engine.adaptive_similarity(a, b, Some(target_score))?;
             }
         }
 
@@ -342,7 +342,7 @@ impl ConceptualReasoning {
     ) -> ConceptualResult<Vec<(ConceptualPoint, f64)>> {
         self.spatial_index.clear();
         
-        for (_, p) in &space.points {
+        for p in space.points.values() {
             self.spatial_index.insert(p.clone())?;
         }
 
@@ -359,10 +359,10 @@ impl ConceptualReasoning {
         // Find the region
         if let Some(region) = space.regions.get(&category_id) {
             // Use prototype properties as inferred properties
-            for (_dim_id, &dim_idx) in &region.prototype.dimension_map {
+            for &dim_idx in region.prototype.dimension_map.values() {
                 // For now, just use the dimension index as a property name
                 let value = region.prototype.coordinates[dim_idx];
-                properties.insert(format!("dimension_{}", dim_idx), value);
+                properties.insert(format!("dimension_{dim_idx}"), value);
             }
         }
 
@@ -543,7 +543,7 @@ impl ConceptualReasoning {
     ) -> ConceptualResult<Vec<(ConceptualPoint, f64)>> {
         let mut neighbors = Vec::new();
 
-        for (_, candidate) in &space.points {
+        for candidate in space.points.values() {
             let distance = space.metric.distance(point, candidate)?;
             
             if distance <= constraints.max_step_size && distance > 0.0 {

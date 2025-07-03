@@ -14,6 +14,12 @@ pub struct ConceptualSpaceCommandHandler {
     aggregates: HashMap<ConceptualSpaceId, ConceptualSpaceAggregate>,
 }
 
+impl Default for ConceptualSpaceCommandHandler {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl ConceptualSpaceCommandHandler {
     /// Create a new command handler
     pub fn new() -> Self {

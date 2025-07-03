@@ -86,16 +86,14 @@ impl QualityDimension {
                         Ok(())
                     } else {
                         Err(ConceptualError::InvalidDimension(
-                            format!("Value {} must equal {} for zero-range dimension '{}'",
-                                    value, self.range.start, self.name)
+                            format!("Value {} must equal {} for zero-range dimension '{}'", value, self.range.start, self.name)
                         ))
                     }
                 } else if value >= self.range.start && value < self.range.end {
                     Ok(())
                 } else {
                     Err(ConceptualError::InvalidDimension(
-                        format!("Value {} is outside range {:?} for dimension '{}'",
-                                value, self.range, self.name)
+                        format!("Value {} is outside range {:?} for dimension '{}'", value, self.range, self.name)
                     ))
                 }
             }

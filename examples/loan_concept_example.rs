@@ -468,7 +468,7 @@ fn main() {
     let dims = PrivateMortgageDimensions::new();
     let quality_dims = create_private_mortgage_dimensions(&dims);
 
-    println!("Created {} quality dimensions for private mortgages", quality_dims.len());
+    println!("Created {quality_dims.len(} quality dimensions for private mortgages"));
 
     // 2. Create conceptual space for private lending
     let metric = ConceptualMetric::uniform(16, 2.0); // Euclidean metric
@@ -555,7 +555,7 @@ fn main() {
     ];
 
     for event in &events {
-        println!("\nEvent: {}", event.event_type());
+        println!("\nEvent: {event.event_type(}"));
         let changes = event.project();
         for change in changes {
             match change {
@@ -563,7 +563,7 @@ fn main() {
                     println!("  → Removed old loan concept");
                 }
                 ConceptualChange::AddConcept { concept_type, .. } => {
-                    println!("  → Added new loan concept as: {}", concept_type);
+                    println!("  → Added new loan concept as: {concept_type}");
                 }
                 _ => {}
             }
@@ -608,8 +608,7 @@ fn main() {
             "Construction Loan"
         };
 
-        println!("  {} - Match: {:.1}%",
-            loan_type, (1.0 - distance.min(1.0)) * 100.0);
+        println!("  {loan_type} - Match: {:.1}%", (1.0 - distance.min(1.0)) * 100.0);
     }
 
     println!("\n=== Market Evolution ===");

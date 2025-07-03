@@ -53,7 +53,7 @@ impl DomainEvent for ConceptualSpaceDomainEvent {
     }
 
     fn subject(&self) -> String {
-        format!("conceptualspace.{}", self.event_type().to_lowercase())
+        format!("conceptualspace.{}", self.event_type()).to_lowercase()
     }
 }
 

@@ -1,14 +1,12 @@
 //! Tests for the Conceptual Spaces domain
 
+use cim_domain::{CommandEnvelope, CommandHandler};
 use cim_domain_conceptualspaces::{
-    ConceptualSpaceId, ConceptualSpace, ConceptualPoint, ConvexRegion,
-    ConceptualMetric, DimensionWeight,
-    Hyperplane, ConceptualSpaceCommandHandler, CreateConceptualSpace,
-    ReplaceDimensionWeights,
-    SpatialIndex, RTreeIndex, DistanceMetric,
-    DimensionId, similarity::*, SimilarityEngine, CategoryFormation, CategoryBoundaryDetection,
+    similarity::*, CategoryBoundaryDetection, CategoryFormation, ConceptualMetric, ConceptualPoint,
+    ConceptualSpace, ConceptualSpaceCommandHandler, ConceptualSpaceId, ConvexRegion,
+    CreateConceptualSpace, DimensionId, DimensionWeight, DistanceMetric, Hyperplane, RTreeIndex,
+    ReplaceDimensionWeights, SimilarityEngine, SpatialIndex,
 };
-use cim_domain::{CommandHandler, CommandEnvelope};
 use std::collections::HashMap;
 use uuid::Uuid;
 
@@ -89,7 +87,7 @@ async fn test_f16_command_handler_integration() {
 }
 
 /// Test F17: Spatial Index Operations
-/// 
+///
 /// ```mermaid
 /// graph TD
 ///     A[Create Index] --> B[Insert Points]
@@ -181,8 +179,7 @@ async fn test_f18_similarity_engine() {
 /// ```
 #[tokio::test]
 async fn test_f19_voronoi_category_formation() {
-    let formation = CategoryFormation::new(DistanceMetric::Euclidean)
-        .with_params(3, 2.0);
+    let formation = CategoryFormation::new(DistanceMetric::Euclidean).with_params(3, 2.0);
 
     // Create a test space with clustered points
     let _space_id = ConceptualSpaceId(Uuid::new_v4());
@@ -219,8 +216,7 @@ async fn test_f19_voronoi_category_formation() {
 /// ```
 #[tokio::test]
 async fn test_f20_voronoi_boundary_detection() {
-    let detector = CategoryBoundaryDetection::new()
-        .with_params(0.5, 1.0);
+    let detector = CategoryBoundaryDetection::new().with_params(0.5, 1.0);
 
     let space = ConceptualSpace::new(
         "Boundary Test Space".to_string(),
@@ -279,11 +275,8 @@ async fn test_f21_prototype_similarity() {
         id: Some(Uuid::new_v4()),
     };
 
-    let similarity = AdvancedSimilarity::prototype_similarity(
-        &test_point,
-        &prototype,
-        &space,
-    ).unwrap();
+    let similarity =
+        AdvancedSimilarity::prototype_similarity(&test_point, &prototype, &space).unwrap();
 
     // Should be between 0 and 1, with exponential decay
     assert!(similarity >= 0.0 && similarity <= 1.0);
