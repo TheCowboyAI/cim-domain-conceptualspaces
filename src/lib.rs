@@ -31,6 +31,9 @@ pub mod similarity;
 pub mod category_formation;
 pub mod reasoning;
 
+// ECS systems
+pub mod systems;
+
 // Re-export aggregate
 pub use aggregate::ConceptualSpaceAggregate;
 

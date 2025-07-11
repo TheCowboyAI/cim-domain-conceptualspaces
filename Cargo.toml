@@ -30,6 +30,9 @@ petgraph = { version = "0.6", features = ["serde-1"] } # Enable serde support
 # Logging
 tracing = "0.1"
 
+# ECS
+bevy = { version = "0.16.1", default-features = false }
+
 # Internal dependencies
 cim-component = { path = "../cim-component" }
 cim-domain = { path = "../cim-domain" }
