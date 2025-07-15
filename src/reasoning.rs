@@ -20,7 +20,7 @@ pub struct ConceptualReasoning {
     similarity_engine: SimilarityEngine,
 
     /// Category formation engine
-    category_formation: CategoryFormation,
+    _category_formation: CategoryFormation,
 
     /// Spatial index for efficient reasoning
     spatial_index: RTreeIndex,
@@ -34,7 +34,7 @@ impl ConceptualReasoning {
     pub fn new(metric: DistanceMetric) -> Self {
         Self {
             similarity_engine: SimilarityEngine::new(metric.clone()),
-            category_formation: CategoryFormation::new(metric.clone()),
+            _category_formation: CategoryFormation::new(metric.clone()),
             spatial_index: RTreeIndex::new(metric),
             learning_rate: 0.1,
         }
