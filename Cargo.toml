@@ -34,9 +34,9 @@ tracing = "0.1"
 bevy = { version = "0.16.1", default-features = false }
 
 # Internal dependencies
-cim-component = { path = "../cim-component" }
+cim-component = { path = "../cim-domain/crates/cim-component" }
 cim-domain = { path = "../cim-domain" }
-cim-ipld = { path = "../cim-ipld" }
+cim-ipld = { path = "../cim-domain/crates/cim-ipld" }
 
 [dev-dependencies]
 tokio = { version = "1.42", features = ["full"] }
